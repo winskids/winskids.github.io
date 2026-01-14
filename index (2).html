@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Win's Kids - Carte de Visite</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+            background: linear-gradient(135deg, 
+                #FFE8F5 0%,
+                #E1F5FE 50%,
+                #FFE8F5 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Formes liquides animées */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(233, 30, 99, 0.12) 0%, transparent 70%);
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            top: -100px;
+            left: -100px;
+            animation: morphBlob1 8s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(3, 169, 244, 0.12) 0%, transparent 70%);
+            border-radius: 30% 70% 70% 30% / 30% 60% 40% 70%;
+            bottom: -80px;
+            right: -80px;
+            animation: morphBlob2 10s ease-in-out infinite;
+        }
+
+        @keyframes morphBlob1 {
+            0%, 100% {
+                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+                transform: translate(0, 0) rotate(0deg);
+            }
+            50% {
+                border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+                transform: translate(50px, 50px) rotate(180deg);
+            }
+        }
+
+        @keyframes morphBlob2 {
+            0%, 100% {
+                border-radius: 30% 70% 70% 30% / 30% 60% 40% 70%;
+                transform: translate(0, 0) rotate(0deg);
+            }
+            50% {
+                border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%;
+                transform: translate(-30px, -30px) rotate(-180deg);
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        /* Carte horizontale */
+        .business-card {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 
+                0 30px 80px rgba(233, 30, 99, 0.3),
+                0 0 0 1px rgba(3, 169, 244, 0.2);
+            backdrop-filter: blur(20px);
+            position: relative;
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 50px;
+            align-items: center;
+            min-height: 500px;
+            animation: cardEntrance 0.8s ease-out;
+            overflow: hidden;
+        }
+
+        @keyframes cardEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Bordure animée */
+        .business-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 30px;
+            padding: 2px;
+            background: linear-gradient(
+                45deg,
+                #E91E63, #FF4081, #03A9F4, #00BCD4,
+                #E91E63, #FF4081
+            );
+            background-size: 400% 400%;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: borderGlow 6s ease-in-out infinite;
+            opacity: 0.4;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Section gauche - Logo et QR */
+        .left-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 35px;
+        }
+
+        .logo-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-container::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, 
+                rgba(233, 30, 99, 0.15) 0%, 
+                rgba(3, 169, 244, 0.15) 50%,
+                transparent 70%);
+            border-radius: 50%;
+            animation: logoGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes logoGlow {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(0.9);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 40px rgba(233, 30, 99, 0.3));
+            animation: logoFloat 4s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* QR Code */
+        .qr-container {
+            text-align: center;
+        }
+
+        .qr-code {
+            width: 180px;
+            height: 180px;
+            padding: 15px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(233, 30, 99, 0.3);
+            animation: qrPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes qrPulse {
+            0%, 100% {
+                box-shadow: 0 10px 40px rgba(233, 30, 99, 0.3);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 15px 50px rgba(3, 169, 244, 0.4);
+                transform: scale(1.05);
+            }
+        }
+
+        .scan-text {
+            font-size: 13px;
+            color: #E91E63;
+            font-weight: 700;
+            margin-top: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Section droite */
+        .right-section {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .brand-name {
+            font-size: 52px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #E91E63, #FF4081, #03A9F4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+            line-height: 1.2;
+            animation: textShine 4s ease-in-out infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes textShine {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .tagline {
+            font-size: 18px;
+            color: #666;
+            font-style: italic;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-top: -15px;
+        }
+
+        .divider {
+            width: 120px;
+            height: 3px;
+            background: linear-gradient(90deg, #E91E63, #03A9F4);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(233, 30, 99, 0.3);
+        }
+
+        /* Bouton Partager */
+        .share-button {
+            padding: 18px 40px;
+            background: linear-gradient(135deg, #E91E63, #FF4081);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(233, 30, 99, 0.4);
+            align-self: flex-start;
+        }
+
+        .share-button:hover {
+            background: linear-gradient(135deg, #03A9F4, #00BCD4);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(3, 169, 244, 0.5);
+        }
+
+        /* Message succès */
+        .success-message {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: linear-gradient(135deg, #E91E63, #03A9F4);
+            color: white;
+            padding: 18px 35px;
+            border-radius: 50px;
+            box-shadow: 0 10px 40px rgba(233, 30, 99, 0.5);
+            font-weight: 700;
+            opacity: 0;
+            transition: all 0.5s ease;
+            z-index: 1000;
+        }
+
+        .success-message.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .business-card {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 40px;
+                text-align: center;
+            }
+
+            .right-section {
+                align-items: center;
+            }
+
+            .share-button {
+                align-self: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .business-card {
+                padding: 30px;
+            }
+
+            .logo-container {
+                width: 220px;
+                height: 220px;
+            }
+
+            .qr-code {
+                width: 160px;
+                height: 160px;
+            }
+
+            .brand-name {
+                font-size: 38px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="business-card">
+            <div class="left-section">
+                <div class="logo-container">
+                    <img src="winskids/logo-winskids-transparent.png" alt="Win's Kids">
+                </div>
+
+                <div class="qr-container">
+                    <div class="qr-code" id="qrcode"></div>
+                    <p class="scan-text">Scanne-moi</p>
+                </div>
+            </div>
+
+            <div class="right-section">
+                <div>
+                    <h1 class="brand-name">Win's Kids</h1>
+                    <p class="tagline">L'univers magique des enfants</p>
+                    <div class="divider"></div>
+                </div>
+
+                <button class="share-button" onclick="shareCard()">
+                    <span>🔗</span>
+                    <span>Partager la Carte</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="success-message" id="successMessage"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        // Générer QR Code
+        new QRCode(document.getElementById("qrcode"), {
+            text: window.location.origin + window.location.pathname.replace('index.html', 'scan.html'),
+            width: 150,
+            height: 150,
+            colorDark: "#E91E63",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        function shareCard() {
+            const shareData = {
+                title: "Win's Kids",
+                text: "Découvrez Win's Kids - L'univers magique des enfants",
+                url: window.location.href
+            };
+
+            if (navigator.share) {
+                navigator.share(shareData).catch(() => {
+                    copyToClipboard();
+                });
+            } else {
+                copyToClipboard();
+            }
+        }
+
+        function copyToClipboard() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                showSuccess('✓ Lien copié!');
+            });
+        }
+
+        function showSuccess(message) {
+            const messageEl = document.getElementById('successMessage');
+            messageEl.textContent = message;
+            messageEl.classList.add('show');
+            setTimeout(() => {
+                messageEl.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
