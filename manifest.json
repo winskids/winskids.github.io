@@ -1,0 +1,18 @@
+{
+    "name": "Win's Kids - La qualité à petit prix",
+    "short_name": "Win's Kids",
+    "description": "Carte de visite digitale Win's Kids - L'univers magique des enfants",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#FFE8F5",
+    "theme_color": "#E91E63",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "logo-winskids-transparent.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
